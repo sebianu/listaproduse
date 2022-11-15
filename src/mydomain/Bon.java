@@ -4,12 +4,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;    
 import java.util.HashMap;
 import java.util.Map;
+import mydomain.ListRead;
 
-import mydomain.ListRead.map;
 
 public class Bon {
     private DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); 
-    private HashMap<Integer, String> listaProduse = new HashMap<Integer, String>();
+    private HashMap<String, Integer> listaProduse = new HashMap<String, Integer>();
     
     public Bon() {
     	
@@ -18,9 +18,9 @@ public class Bon {
     public String printBon() { 
     	LocalDateTime timpAcum = LocalDateTime.now();
     	String bonPrintOut = "        BON FISCAL        \n";
-    	for(Map.Entry<Integer, String> entry : listaProduse.entrySet()) {
-    		Integer prodCant = entry.getKey();
-    		String prodNume = entry.getValue();
+    	for(Map.Entry<String, Integer> entry : listaProduse.entrySet()) {
+    		Integer prodCant = entry.getValue();
+    		String prodNume = entry.getKey();
     		bonPrintOut += String.format("%s - %d\n", prodNume, prodCant);
     	}
     	bonPrintOut += "\n " + dtf.format(timpAcum) + "\n";
@@ -28,14 +28,15 @@ public class Bon {
     }
     
     public void addProdus(int produs) {
-    	if(listaProduse.containsKey(produs)) {
-    		listaProduse.put(produs, listaProduse.get(produs) + 1);
+    	String prod = ListRead.map.get(produs);
+    	if(listaProduse.containsKey(prod)) {
+    		listaProduse.put(prod, listaProduse.get(prod) + 1);
     	}
-    	listaProduse.put(map.get(produs), 1);
+    	listaProduse.put(ListRead.map.get(produs), 1);
     }
     
     public void delProdus(int produs) {
-    	listaProduse.remove(produs);
+    	listaProduse.remove(ListRead.map.get(produs));
     }
     
     

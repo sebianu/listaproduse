@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 
 public class ListRead {
+	static HashMap<Integer, String> map = new HashMap<Integer, String>();
     public static void main(String[] args) {
-        HashMap<Integer, String> map = new HashMap<Integer, String>();
+        
         try {
             File myFile = new File("lista_produse.txt");
             Scanner myReader = new Scanner(myFile);
