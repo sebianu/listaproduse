@@ -1,51 +1,32 @@
 package mydomain;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.sql.PreparedStatement;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
 public class ListRead {
 	static HashMap<Integer, String> map = new HashMap<Integer, String>();
-    public static void main(String[] args) {
-        
-        try {
-            File myFile = new File("lista_produse.txt");
-            Scanner myReader = new Scanner(myFile);
-            String[] SplitProd;
-            SplitProd = new String[5];
-            int number = 0;
-
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                SplitProd = data.split(" ");
-                int spaceNumber = 0;
-                String restText;
-                restText = new String();
-                restText = "";
-                for(String aux : SplitProd)
-                {
-                    if(spaceNumber < 1)
-                        number = Integer.parseInt(aux);
-                    else {
-                       restText =  restText.concat(aux);
-                        restText = restText.concat(" ");
-                    }
-                    spaceNumber ++;
-                }
-                int lengh = restText.length();
-                //System.out.println(restText.length());
-                String finalText = restText.substring(0, lengh - 1);
-                map.put(number,finalText);
-                System.out.println(map);
-            }
-            myReader.close();
-        } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        
-    }
+	public static void Main(String[] args) {
+		try {
+			File file = new File("lista_produse.txt");
+			Scanner scanner = new Scanner(file);
+			String line;
+			
+			while(scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				String[] tokens = line.split(" ");
+				
+				String key = tokens[0];
+				line = String.join(" ",Arrays.copyOfRange(tokens, 1, tokens.length));
+				
+				map.put(Integer.parseInt(key), line);
+			}
+			
+			scanner.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
